@@ -1,0 +1,30 @@
+pipelines:
+  - name: Test_automation_parallel_AWS_env
+    configuration:
+      environmentVariables:
+        readOnly:
+          #set this env to true to delete the Conf.json file
+          removeConfFile: "false"
+          FILE: conf.json
+          exitCode: "1"
+     # nodePool: u16-gcp-dynamic
+    steps:
+      - name: setup_tests
+        type: Bash
+        configuration:
+          integrations:
+            - name: test_automation
+          inputResources:
+            - name: vijay
+              trigger: False
+        execution:
+          onStart:
+            - pushd $res_vijay_resourcePath/auto
+            - restore_pipeline_files jsonfile $FILE
+            - if [[ -f "$FILE" ]]; then jsonfile=true && cat $FILE; fi
+            - if ( $jsonfile && $removeConfFile ); then echo "removing file" && rm -rf $FILE; fi
+            - export REPOSITORY_FULL_NAME="jfbetapipeorg/Org_test_Automation"
+            - export testCases="core/testHarness/setup.js"
+            - ./test.sh AWS_env
+            - add_pipeline_files $FILE jsonfile
+            - cat $FILE
