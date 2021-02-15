@@ -1,0 +1,9 @@
+  - name: vijay
+    type: GitRepo
+    configuration:
+      path: vijaytreddy1991/kumar1234
+      gitProvider: vijay
+      branches:
+        include: ^{{gitBranch}}$
+      files:
+        include: \kumar1234\/auto\/.+\b
