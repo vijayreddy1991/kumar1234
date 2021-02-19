@@ -15,7 +15,7 @@ pipelines:
           integrations:
             - name: test_automation
           inputResources:
-            - name: vijay
+            - name: vijay_repo
               trigger: False
         execution:
           onStart:
