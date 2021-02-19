@@ -1,4 +1,4 @@
-  - name: vijay
+  - name: vijay_repo
     type: GitRepo
     configuration:
       path: vijayreddy1991/kumar1234
