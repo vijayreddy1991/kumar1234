@@ -1,0 +1,10 @@
+resources:
+  - name: wwwGit
+    type: GitRepo
+    configuration:
+      path: PIP/controlplane
+      gitProvider: bsBitbucket
+      branches:
+        include: ^{{gitBranch}}$
+      files:
+        include: \bwww\/.+\b
