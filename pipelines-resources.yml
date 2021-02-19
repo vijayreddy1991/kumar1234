@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       path: vijayreddy1991/kumar1234
-      gitProvider: bsBitbucket
+      gitProvider: vijay
       branches:
         include: ^{{gitBranch}}$
       files:
