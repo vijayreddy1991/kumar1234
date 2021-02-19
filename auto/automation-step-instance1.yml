@@ -1,5 +1,5 @@
 pipelines:
-  - name: Test_automation_parallel_AWS_env
+  - name: Test_automation_parallel_AWS_env1234
     configuration:
       environmentVariables:
         readOnly:
