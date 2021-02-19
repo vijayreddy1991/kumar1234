@@ -1,7 +1,7 @@
   - name: vijay
     type: GitRepo
     configuration:
-      path: vijaytreddy1991/kumar1234
+      path: vijayreddy1991/kumar1234
       gitProvider: vijay
       branches:
         include: ^{{gitBranch}}$
