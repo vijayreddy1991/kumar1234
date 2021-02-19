@@ -1,26 +1,6 @@
 pipelines:
   - name: controlplane
-    configuration:
-      environmentVariables:
-        readOnly:
-          rtRegistry: "pipelines-docker"
-          dockerRepo: "jfpip.jfrog.io"
-          wwwImageName: "jfpip.jfrog.io/jfrog/pipelines-www"
-          apiImageName: "jfpip.jfrog.io/jfrog/pipelines-api"
-          microImageName: "jfpip.jfrog.io/jfrog/pipelines-micro"
-          installerImageName: "jfpip.jfrog.io/jfrog/pipelines-installer"
-          installerArtifactsPath: "pipelines-installers/installer"
-          templateTarget: "pipelines-artifacts/template"
-          version: "{{gitBranch}}"
-          JFROG_CLI_BUILD_URL: "http://pipe-rc.jfrog.info"
-          buildPlaneVersion: "0.0.0-m000"
-          XRAY_FILE_TARGET: "pipelines-artifacts/xray"
-          XRAY_FAIL_PIPELINES: "false"
-          XRAY_ENABLED: "false"
-          dockerVersion: "20.10.2"
-          dockerComposeVersion: "1.27.4"
-          RT_VERSION: "7.15.3"
-          PIPELINES_CHART_VERSION: 2.8.0
+
     steps:
       - name: trigger_controlplane_builds
         type: Bash
@@ -28,29 +8,3 @@ pipelines:
           onStart:
             - echo "kicking off all install builds"
             - add_run_variables will_publish_bi="true"
-      - name: api_test
-        type: Bash
-        configuration:
-          affinityGroup: cp
-          runtime:
-            type: image
-            image:
-              custom:
-                name: docker.bintray.io/jfrog/pipelines-u20node
-                tag: 12.18.2
-          integrations:
-            - name: entArt
-            - name: bsEntPlus
-          inputResources:
-            - name: apiGit
-          inputSteps:
-            - name: trigger_controlplane_builds
-        execution:
-          onStart:
-            - sudo chmod 1777 /tmp
-            - sudo apt-get update --allow-unauthenticated
-            - sudo apt-get install -y libpq-dev
-            - cd $res_apiGit_resourcePath/api
-            - jfrog rt npm-config --server-id-resolve entArt --repo-resolve npm-virtual
-            - jfrog rt npm-install
-            - npm test
